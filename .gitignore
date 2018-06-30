@@ -1,0 +1,7 @@
+**/vendor/
+**/config.ini
+**/database.json
+**/bin/
+**/node_modules/
+**/config.json
+.idea/
