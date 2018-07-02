@@ -5,6 +5,9 @@ import (
     "net/http"
     "github.com/go-xorm/xorm"
     "github.com/surrexi/learning-golang/api.golang/src/system/router"
+    "github.com/gorilla/handlers"
+    "os"
+    "time"
 )
 
 type Server struct {
@@ -31,5 +34,23 @@ func (s *Server) Start() {
 
     r.Init()
 
-    http.ListenAndServe(s.port, r.Router)
+    handler := handlers.LoggingHandler(os.Stdout, handlers.CORS(
+        handlers.AllowedOrigins([]string{"*"}),
+        handlers.AllowedMethods([]string{"GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"}),
+        handlers.AllowedHeaders([]string{"Content-type", "Origin", "Cache-Control", "X-App-Token"}),
+        handlers.ExposedHeaders([]string{""}),
+        handlers.MaxAge(1000),
+        handlers.AllowCredentials(),
+    )(r.Router))
+
+    handler = handlers.RecoveryHandler(handlers.PrintRecoveryStack(true))(handler)
+
+    NewServer := &http.Server{
+        Handler:      handler,
+        Addr:         "0.0.0.0" + s.port,
+        WriteTimeout: 15 * time.Second,
+        ReadTimeout:  15 * time.Second,
+    }
+
+    log.Fatal(NewServer.ListenAndServe())
 }
