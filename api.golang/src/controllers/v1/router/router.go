@@ -5,7 +5,10 @@ import (
     StatusHandler "github.com/surrexi/learning-golang/api.golang/src/controllers/v1/status"
     "github.com/surrexi/learning-golang/api.golang/pkg/types/routes"
     "log"
+    "github.com/go-xorm/xorm"
 )
+
+var db *xorm.Engine
 
 func Middleware(next http.Handler) http.Handler {
     return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +24,11 @@ func Middleware(next http.Handler) http.Handler {
     })
 }
 
-func GetRoutes() (SubRoute map[string]routes.SubRoutePackage) {
+func GetRoutes(DB *xorm.Engine) (SubRoute map[string]routes.SubRoutePackage) {
+    db = DB
+
+    StatusHandler.Init(DB)
+
     SubRoute = map[string]routes.SubRoutePackage{
         "/v1": {
             Routes: routes.Routes{

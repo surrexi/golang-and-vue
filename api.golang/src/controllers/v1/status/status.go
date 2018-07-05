@@ -1,6 +1,8 @@
-package home
+package status
 
-import "github.com/go-xorm/xorm"
+import (
+    "github.com/go-xorm/xorm"
+)
 
 var db *xorm.Engine
 

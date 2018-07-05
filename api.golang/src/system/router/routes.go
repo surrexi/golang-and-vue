@@ -4,6 +4,7 @@ import (
     "net/http"
     "github.com/surrexi/learning-golang/api.golang/pkg/types/routes"
     HomeHandler "github.com/surrexi/learning-golang/api.golang/src/controllers/home"
+    "github.com/go-xorm/xorm"
 )
 
 func Middleware(next http.Handler) http.Handler {
@@ -12,7 +13,10 @@ func Middleware(next http.Handler) http.Handler {
     })
 }
 
-func GetRoutes() routes.Routes {
+func GetRoutes(db *xorm.Engine) routes.Routes {
+
+    HomeHandler.Init(db)
+
     return routes.Routes{
         routes.Route{Name: "Home", Method: "GET", Pattern: "/", HandlerFunc: HomeHandler.Index},
     }
