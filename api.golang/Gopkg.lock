@@ -50,6 +50,15 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = [
+    "bcrypt",
+    "blowfish"
+  ]
+  revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
+
+[[projects]]
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
   revision = "b1f26356af11148e710935ed1ac8a7f5702c7612"
@@ -58,6 +67,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "dc9041aa0b9f401ef13d6a74dd095f735ca7e1a3304b191ba48431b6f068bb8f"
+  inputs-digest = "bef61893407ef51932df556ec985683ada3a4ce5d0d0ef09a6240247c35845c0"
   solver-name = "gps-cdcl"
   solver-version = 1
